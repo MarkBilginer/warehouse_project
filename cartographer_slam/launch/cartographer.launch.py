@@ -7,7 +7,8 @@ from launch.actions import SetEnvironmentVariable
 def generate_launch_description():
 
     cartographer_config_dir = os.path.join(get_package_share_directory('cartographer_slam'), 'config')
-    configuration_basename = 'cartographer.lua'
+    #configuration_basename = 'cartographer.lua' # for simulation robot
+    configuration_basename = 'cartographer_real.lua' # for real robot lab
 
     rviz_config_file = os.path.join(get_package_share_directory('cartographer_slam'), 'rviz', 'mapping.rviz')
     print(f"Rviz config file: {rviz_config_file}")
