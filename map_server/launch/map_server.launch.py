@@ -24,7 +24,7 @@ def generate_launch_description():
     rviz_config_file = os.path.join(get_package_share_directory(package_name), 'rviz', 'mapping.rviz')
     print(f"Rviz config file: {rviz_config_file}")
 
-        # Use PathJoinSubstitution to construct the full path for the map file
+    # Use PathJoinSubstitution to construct the full path for the map file
     map_file_path = PathJoinSubstitution(
         [get_package_share_directory(package_name), 'config', LaunchConfiguration('map_file')]
     )
