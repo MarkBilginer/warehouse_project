@@ -16,7 +16,7 @@ def generate_launch_description():
     rviz_config_file = os.path.join(get_package_share_directory(package_name), 'rviz', 'localization.rviz')
     print(f"Rviz config file: {rviz_config_file}")
     
-    amcl_config_file = os.path.join(get_package_share_directory(package_name), 'config', 'amcl_config.yaml') # if run with RB1 in simulation
+    amcl_config_file = os.path.join(get_package_share_directory(package_name), 'config', 'amcl_config_real.yaml') # if run with RB1 in simulation
     print(f"Amcl config file: {amcl_config_file}")
 
     map_file_launch_arg = DeclareLaunchArgument(
@@ -59,7 +59,7 @@ def generate_launch_description():
             name='static_map_publisher',
             output='screen',
             parameters=[{'use_sim_time': True}],
-            arguments=['0', '0', '0', '0', '0', '0', 'map', 'odom']
+            arguments=['0', '0', '0', '0', '0', '0', 'map', 'robot_odom']
         ),
             
         Node(
