@@ -1,0 +1,71 @@
+controller_server:
+  ros__parameters:
+    controller_frequency: 5.0
+    min_x_velocity_threshold: 0.001
+    min_y_velocity_threshold: 0.5
+    min_theta_velocity_threshold: 0.001
+    failure_tolerance: 0.1
+    publish_zero_velocity: True
+    progress_checker_plugin: "progress_checker"
+    goal_checker_plugin: "goal_checker"
+    controller_plugins: ["FollowPath"]
+
+    # Progress checker parameters
+    progress_checker:
+      plugin: "nav2_controller::SimpleProgressChecker"
+      required_movement_radius: 0.3
+      movement_time_allowance: 15.0
+    # Goal checker parameters
+    goal_checker:
+      plugin: "nav2_controller::SimpleGoalChecker"
+      xy_goal_tolerance: 0.15
+      yaw_goal_tolerance: 0.1
+      stateful: True
+    # DWB parameters
+    FollowPath:
+      plugin: "dwb_core::DWBLocalPlanner"
+      debug_trajectory_details: true
+      min_vel_x: 0.01
+      min_vel_y: 0.01
+      max_vel_x: 0.2
+      max_vel_y: 0.2
+      max_vel_theta: 1.0
+      min_speed_xy: 0.01
+      max_speed_xy: 0.2
+      min_speed_theta: 0.01
+      # Add high threshold velocity for turtlebot 3 issue.
+      # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
+      acc_lim_x: 1.0
+      acc_lim_y: 1.0
+      acc_lim_theta: 5.0
+      decel_lim_x: -2.0
+      decel_lim_y: -1.0
+      decel_lim_theta: -5.0
+      vx_samples: 30
+      vy_samples: 0
+      vtheta_samples: 30
+      sim_time: 1.0
+      linear_granularity: 0.01
+      angular_granularity: 0.01
+      transform_tolerance: 0.1
+      xy_goal_tolerance: 0.25
+      trans_stopped_velocity: 0.01
+      short_circuit_trajectory_evaluation: true
+      stateful: True
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "ObstacleFootprint", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
+      #Critic Weights
+      BaseObstacle.scale: 150.0
+      ObstacleFootprint.scale: 180.0
+      PathAlign.scale: 5.0
+      GoalAlign.scale: 20.0
+      PathDist.scale: 8.0
+      GoalDist.scale: 10.0
+      RotateToGoal.scale: 8.0
+      RotateToGoal.slowing_factor: 4.0
+      Oscillation.scale: 15.0
+
+      # Path-following and obstacle avoidance tuning
+      PathAlign.forward_point_distance: 0.02
+      GoalAlign.forward_point_distance: 0.02
+
+      RotateToGoal.lookahead_time: 1.5

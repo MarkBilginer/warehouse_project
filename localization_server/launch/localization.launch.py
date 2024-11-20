@@ -16,7 +16,8 @@ def generate_launch_description():
     rviz_config_file = os.path.join(get_package_share_directory(package_name), 'rviz', 'localization.rviz')
     print(f"Rviz config file: {rviz_config_file}")
     
-    amcl_config_file = os.path.join(get_package_share_directory(package_name), 'config', 'amcl_config_real.yaml') # if run with RB1 in simulation
+    amcl_config_file = os.path.join(get_package_share_directory(package_name), 'config', 'amcl_config.yaml') # if run with RB1 in simulation
+    #amcl_config_file = os.path.join(get_package_share_directory(package_name), 'config', 'amcl_config_real.yaml') # if run with RB1 in real robot_lab
     print(f"Amcl config file: {amcl_config_file}")
 
     map_file_launch_arg = DeclareLaunchArgument(
@@ -51,30 +52,29 @@ def generate_launch_description():
             output='screen',
             parameters=[{'use_sim_time': True}, 
                         {'yaml_filename':map_file_path}]
-        ),
-
-        Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            name='static_map_publisher',
-            output='screen',
-            parameters=[{'use_sim_time': True}],
-            arguments=['0', '0', '0', '0', '0', '0', 'map', 'robot_odom']
-        ),
-            
+        ),  
         Node(
             package='nav2_amcl',
             executable='amcl',
             name='amcl',
             output='screen',
             parameters=[amcl_config_file]
-        ),
-
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            output='screen',
-            arguments=['-d', rviz_config_file]
         )
     ])
+
+        #Node(
+        #    package='tf2_ros',
+        #    executable='static_transform_publisher',
+        #    name='static_map_publisher',
+        #    output='screen',
+        #    parameters=[{'use_sim_time': True}],
+        #    arguments=['0', '0', '0', '0', '0', '0', 'map', 'robot_odom']
+        #),
+
+        #Node(
+        #    package='rviz2',
+        #    executable='rviz2',
+        #    name='rviz2',
+        #    output='screen',
+        #    arguments=['-d', rviz_config_file]
+        #)
