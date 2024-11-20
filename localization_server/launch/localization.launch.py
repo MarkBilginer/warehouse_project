@@ -16,13 +16,17 @@ def generate_launch_description():
     rviz_config_file = os.path.join(get_package_share_directory(package_name), 'rviz', 'localization.rviz')
     print(f"Rviz config file: {rviz_config_file}")
     
-    amcl_config_file = os.path.join(get_package_share_directory(package_name), 'config', 'amcl_config.yaml') # if run with RB1 in simulation
-    #amcl_config_file = os.path.join(get_package_share_directory(package_name), 'config', 'amcl_config_real.yaml') # if run with RB1 in real robot_lab
+    #amcl_config_file = os.path.join(get_package_share_directory(package_name), 'config', 'amcl_config.yaml') # if run with RB1 in simulation
+    amcl_config_file = os.path.join(get_package_share_directory(package_name), 'config', 'amcl_config_real.yaml') # if run with RB1 in real robot_lab
     print(f"Amcl config file: {amcl_config_file}")
 
+    #map_file_launch_arg = DeclareLaunchArgument(
+    #    'map_file',
+    #    default_value = 'warehouse_map_sim.yaml'
+    #)
     map_file_launch_arg = DeclareLaunchArgument(
         'map_file',
-        default_value = 'warehouse_map_sim.yaml'
+        default_value = 'warehouse_map_real.yaml'
     )
 
     # Use PathJoinSubstitution to construct the full path for the map file
@@ -40,7 +44,7 @@ def generate_launch_description():
             executable='lifecycle_manager',
             name='lifecycle_manager_localization',
             output='screen',
-            parameters=[{'use_sim_time': True},
+            parameters=[{'use_sim_time': False},
                         {'autostart': True},
                         {'node_names': ['map_server', 'amcl']}]
         ),
@@ -50,7 +54,7 @@ def generate_launch_description():
             executable='map_server',
             name='map_server',
             output='screen',
-            parameters=[{'use_sim_time': True}, 
+            parameters=[{'use_sim_time': False}, 
                         {'yaml_filename':map_file_path}]
         ),  
         Node(

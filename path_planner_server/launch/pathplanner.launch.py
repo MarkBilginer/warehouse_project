@@ -24,7 +24,7 @@ def generate_launch_description():
             name='lifecycle_manager_pathplanner',
             output='screen',
             parameters=[
-                {'use_sim_time': True},  # Sync with simulation
+                {'use_sim_time': False},  # Sync with simulation
                 {'autostart': True},
                 {'node_names': [
                     'controller_server',
@@ -41,7 +41,7 @@ def generate_launch_description():
             output='screen',
             arguments=['-d', rviz_config],
             parameters=[
-                {'use_sim_time': True}  # Sync with simulation
+                {'use_sim_time': False}  # Sync with simulation
             ]
         ),
         Node(
@@ -49,11 +49,11 @@ def generate_launch_description():
             executable='static_transform_publisher',
             name='static_map_publisher',
             output='screen',
-            parameters=[{'use_sim_time': True}],
-            arguments=['0', '0', '0', '0', '0', '0', 'map', 'odom']
+            parameters=[{'use_sim_time': False}],
+            arguments=['0', '0', '0', '0', '0', '0', 'map', 'robot_odom']
         ),
         Node(
-            package='nav2_controller',
+            package='nav2_controller', # do not remap cmd_vel to diffbot's unstamped_cmd_vel in real robot lab, only remap in simulation robot
             executable='controller_server',
             name='controller_server',
             output='screen',
@@ -61,11 +61,8 @@ def generate_launch_description():
                 controller_yaml,
                 {'global_frame': 'map'},  # Override
                 {'robot_base_frame': 'robot_base_footprint'},  # Override
-                {'use_sim_time': True}  # Sync with simulation
-            ],
-            remappings=[
-                ("/cmd_vel", "/diffbot_base_controller/cmd_vel_unstamped"),
-            ],
+                {'use_sim_time': False}  # Sync with simulation
+            ]
         ),
         Node(
             package='nav2_planner',
@@ -76,7 +73,7 @@ def generate_launch_description():
                 planner_yaml,
                 {'global_frame': 'map'},  # Override
                 {'robot_base_frame': 'robot_base_footprint'},  # Override
-                {'use_sim_time': True}  # Sync with simulation
+                {'use_sim_time': False}  # Sync with simulation
             ]
         ),
         Node(
@@ -88,7 +85,7 @@ def generate_launch_description():
                 global_costmap_yaml,
                 {'global_frame': 'map'},  # Override
                 {'robot_base_frame': 'robot_base_footprint'},  # Override
-                {'use_sim_time': True}  # Sync with simulation
+                {'use_sim_time': False}  # Sync with simulation
             ]
         ),
         Node(
@@ -98,9 +95,9 @@ def generate_launch_description():
             output='screen',
             parameters=[
                 local_costmap_yaml,
-                 {'global_frame': 'odom'},  # Override
+                 {'global_frame': 'robot_odom'},  # Override
                 {'robot_base_frame': 'robot_base_footprint'},  # Override
-                {'use_sim_time': True}  # Sync with simulation
+                {'use_sim_time': False}  # Sync with simulation
             ]
         ),
         Node(
@@ -110,9 +107,9 @@ def generate_launch_description():
             parameters=[
                 recoveries_yaml,
                 {'global_frame': 'map'},  # Override
-                {'local_frame': 'odom'},  # Override
+                {'local_frame': 'robot_odom'},  # Override
                 {'robot_base_frame': 'robot_base_footprint'},  # Override
-                {'use_sim_time': True}  # Sync with simulation
+                {'use_sim_time': False}  # Sync with simulation
             ],
             output='screen'
         ),
@@ -126,8 +123,8 @@ def generate_launch_description():
                 {'default_nav_to_pose_bt_xml': bt_file},  # Include BT XML
                 {'global_frame': 'map'},  # Override
                 {'robot_base_frame': 'robot_base_footprint'},  # Override
-                {'odom_topic': 'odom'},  # Override
-                {'use_sim_time': True}  # Sync with simulation
+                {'odom_topic': 'robot_odom'},  # Override
+                {'use_sim_time': False}  # Sync with simulation
             ]
         ),
 
@@ -137,7 +134,7 @@ def generate_launch_description():
             name='nav_to_pose_action_client',
             output='screen',
             parameters=[
-                {'use_sim_time': True}  # Sync with simulation
+                {'use_sim_time': False}  # Sync with simulation
             ]
         ),
     ])
