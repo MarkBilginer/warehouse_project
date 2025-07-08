@@ -1,7 +1,3 @@
-image: first_try_r0_001_sim.pgm
-mode: trinary
-resolution: 0.001
-origin: [-0.814, -3.89, 0]
-negate: 0
-occupied_thresh: 0.65
-free_thresh: 0.25
+version https://git-lfs.github.com/spec/v1
+oid sha256:661871ea4276a1756d9bc82527ecaee65c6cfcf4a874e5996c33b4d68eac40f6
+size 140

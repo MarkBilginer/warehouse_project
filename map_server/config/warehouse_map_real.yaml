@@ -1,7 +1,3 @@
-image: warehouse_map_real.pgm
-mode: trinary
-resolution: 0.05
-origin: [-5.14, -5.41, 0]
-negate: 0
-occupied_thresh: 0.65
-free_thresh: 0.25
+version https://git-lfs.github.com/spec/v1
+oid sha256:612ae3c58a94dbf9d30652c23e315216c1e902fccfdfb7e0615ee814bdd32a1a
+size 136
