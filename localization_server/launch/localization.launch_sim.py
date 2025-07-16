@@ -14,7 +14,7 @@ def generate_launch_description():
 
     amcl_param_file_arg = DeclareLaunchArgument(
         'amcl_param_file',
-        default_value='amcl_real.yaml',
+        default_value='amcl_sim.yaml',
         description='AMCL config YAML file'
     )
 
@@ -36,7 +36,7 @@ def generate_launch_description():
             executable='map_server',
             name='map_server',
             output='screen',
-            parameters=[{'use_sim_time': False}, {'yaml_filename': map_file_path}]
+            parameters=[{'use_sim_time': True}, {'yaml_filename': map_file_path}]
         ),
 
         # AMCL Node
@@ -55,7 +55,7 @@ def generate_launch_description():
             name='lifecycle_manager_localization',
             output='screen',
             parameters=[
-                {'use_sim_time': False},
+                {'use_sim_time': True},
                 {'autostart': True},
                 {'node_names': ['map_server', 'amcl']}
             ]
