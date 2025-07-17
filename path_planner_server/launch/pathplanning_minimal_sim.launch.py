@@ -7,7 +7,7 @@ def generate_launch_description():
     pkg_path = get_package_share_directory('path_planner_server')
     nav2_params_file = os.path.join(pkg_path, 'config', 'nav2_params.yaml')
     map_yaml_file = os.path.join(pkg_path, 'config', 'warehouse_map_sim.yaml')
-    rviz_config = os.path.join(pkg_path, 'config', 'pathplanning_sim.rviz')
+    rviz_config = os.path.join(pkg_path, 'config', 'pathplanning_minimal_sim.rviz')
 
     return LaunchDescription([
         Node(
@@ -31,8 +31,10 @@ def generate_launch_description():
             executable='controller_server',
             name='controller_server',
             output='screen',
-            parameters=[nav2_params_file]
-        ),
+            parameters=[nav2_params_file],
+            remappings=[
+            ('/cmd_vel', '/diffbot_base_controller/cmd_vel_unstamped'),
+        ]),
 
         Node(
             package='nav2_planner',
