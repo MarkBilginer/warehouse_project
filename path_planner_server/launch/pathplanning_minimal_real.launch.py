@@ -5,9 +5,9 @@ import os
 
 def generate_launch_description():
     pkg_path = get_package_share_directory('path_planner_server')
-    nav2_params_file = os.path.join(pkg_path, 'config', 'nav2_params_sim.yaml')
-    map_yaml_file = os.path.join(pkg_path, 'config', 'warehouse_map_sim.yaml')
-    rviz_config = os.path.join(pkg_path, 'config', 'pathplanning_minimal_sim.rviz')
+    nav2_params_file = os.path.join(pkg_path, 'config', 'nav2_params_real.yaml')
+    map_yaml_file = os.path.join(pkg_path, 'config', 'cartographer_real.yaml')
+    rviz_config = os.path.join(pkg_path, 'config', 'pathplanning_minimal_real.rviz')
 
     return LaunchDescription([
         Node(
@@ -15,7 +15,7 @@ def generate_launch_description():
             executable='map_server',
             name='map_server',
             output='screen',
-            parameters=[{'use_sim_time': True}, {'yaml_filename': map_yaml_file}]
+            parameters=[{'use_sim_time': False}, {'yaml_filename': map_yaml_file}]
         ),
 
         Node(
@@ -31,10 +31,8 @@ def generate_launch_description():
             executable='controller_server',
             name='controller_server',
             output='screen',
-            parameters=[nav2_params_file],
-            remappings=[
-            ('/cmd_vel', '/diffbot_base_controller/cmd_vel_unstamped'),
-        ]),
+            parameters=[nav2_params_file]
+        ),
 
         Node(
             package='nav2_planner',
@@ -66,7 +64,7 @@ def generate_launch_description():
             name='lifecycle_manager_navigation',
             output='screen',
             parameters=[{
-                'use_sim_time': True,
+                'use_sim_time': False,
                 'autostart': True,
                 'node_names': [
                     'map_server',
